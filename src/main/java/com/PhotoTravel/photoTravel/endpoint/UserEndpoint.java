@@ -1,5 +1,7 @@
 package com.PhotoTravel.photoTravel.endpoint;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PhotoTravel.photoTravel.model.User;
+import com.PhotoTravel.photoTravel.service.UserService;
 
 @RestController
 @ResponseBody
@@ -19,6 +22,8 @@ import com.PhotoTravel.photoTravel.model.User;
 public class UserEndpoint {
 
 	
+	@Autowired
+	UserService service;
 	
 	@GetMapping("/{id}")
 	public User getUserId(@PathVariable int id) {
@@ -35,8 +40,14 @@ public class UserEndpoint {
 	
 	
 	@PostMapping("")
-	public ResponseEntity<?> addUser(@RequestBody User user){
-		return null;
+	public ResponseEntity<User> addUser(@RequestBody User user){
+		User exit = service.addUser_(user);
+		if(exit != null) {
+			return new ResponseEntity<User>(exit, HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
 		
 	}
 	

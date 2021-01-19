@@ -2,13 +2,17 @@ package com.PhotoTravel.photoTravel.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Component
+@Entity
 public class Like {
 	
+	@Id
 	public long id;
 	private String ownerNick;
 	private int postId;
