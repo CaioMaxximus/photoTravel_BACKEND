@@ -8,7 +8,7 @@ public class UserDTO {
 
 	public UserDTO(User user) {
 		
-		this.nickname = user.getEmail();
+		this.nickname = user.getNickname();
 		this.description = user.getDescription();
 		
 	}

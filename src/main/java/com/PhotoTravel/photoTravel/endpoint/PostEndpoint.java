@@ -21,7 +21,7 @@ import com.PhotoTravel.photoTravel.model.Post;;
 public class PostEndpoint {
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getPost(@PathVariable int id) {
+	public ResponseEntity<Post> getPost(@PathVariable int id) {
 		return new ResponseEntity<Post>(new Post(),HttpStatus.OK);
 	}
 

@@ -1,5 +1,7 @@
 package com.PhotoTravel.photoTravel.endpoint;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PhotoTravel.photoTravel.model.User;
+import com.PhotoTravel.photoTravel.model.UserDTO;
 import com.PhotoTravel.photoTravel.service.UserService;
 
 @RestController
@@ -25,31 +28,37 @@ public class UserEndpoint {
 	@Autowired
 	UserService service;
 	
-	@GetMapping("/{id}")
-	public User getUserId(@PathVariable int id) {
-		return new User("Caio" ,"Max@gmail.com");
-		
+//	@GetMapping("/{id}")
+//	public User getUserId(@PathVariable Long id) {
+//		return service.getUser(id);
+//		
+//	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<UserDTO>> getAllUsers(){
+		return new ResponseEntity(service.getAllUsers(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/search/{nick}")
-	public User searchUsers() {
-		return null;
+	public ResponseEntity<User> searchUsers(@PathVariable String nick) {
+		return new ResponseEntity(service.getUserByNick(nick),HttpStatus.OK);
 	}
 	
 	
 	
 	
 	@PostMapping("")
-	public ResponseEntity<User> addUser(@RequestBody User user){
-		User exit = service.addUser_(user);
-		if(exit != null) {
-			return new ResponseEntity<User>(exit, HttpStatus.OK);
-			
-		}else {
-			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<UserDTO> addUser(@RequestBody User user){
+		return new ResponseEntity<UserDTO>(service.addUser(user),HttpStatus.OK);
 		
 	}
+	
+	@PostMapping("/test")
+	public ResponseEntity<User> addUseTest(@RequestBody User user){
+		return new ResponseEntity<User>(service.addUser_(user),HttpStatus.OK);
+		
+	}
+	
 	
 	
 	@DeleteMapping("")

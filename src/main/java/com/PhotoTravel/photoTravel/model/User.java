@@ -1,29 +1,42 @@
 package com.PhotoTravel.photoTravel.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.springframework.stereotype.Component;
 
-@Entity
+@Entity(name = "user_entity")
 public class User {
 
 	@Id
-	private String nickName;
+	private String nickname;
+	@Column
 	private String email;
+	@Column
 	private String description;
-	
+	@Column
+	private String password;
 
-	public User(String nickName , String email) {
-		this.nickName = nickName;
+	public User(String nickname, String email, String password) {
+		this.nickname = nickname;
 		this.email = email;
+		this.password = password;
 		this.description = " ";
 	}
 
 	public User() {
-		
+
 	}
-	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -32,12 +45,12 @@ public class User {
 		this.description = description;
 	}
 
-	public String getNickName() {
-		return nickName;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public String getEmail() {
@@ -47,6 +60,5 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
+
 }
