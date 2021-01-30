@@ -41,7 +41,7 @@ public class UserEndpoint {
 	
 	@GetMapping("/search/{nick}")
 	public ResponseEntity<User> searchUsers(@PathVariable String nick) {
-		return new ResponseEntity(service.getUserByNick(nick),HttpStatus.OK);
+		return new ResponseEntity(service.getUserByNickDTO(nick),HttpStatus.OK);
 	}
 	
 	

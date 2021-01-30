@@ -6,22 +6,25 @@ import com.PhotoTravel.photoTravel.DAO.PostDAO;
 import com.PhotoTravel.photoTravel.error.ResourceAlreadyExistsException;
 import com.PhotoTravel.photoTravel.error.ResourceNotFoundException;
 import com.PhotoTravel.photoTravel.model.Post;
+import com.PhotoTravel.photoTravel.model.User;
 public class PostService {
 
 
 	private final PostDAO postDAO;
-//	private final UserService userService;
+    private UserService userService;
 	
 	@Autowired
-	public PostService(PostDAO postDAO) {
+	public PostService(PostDAO postDAO,UserService userService) {
 		this.postDAO = postDAO;
+		this.userService = userService;
 	}
 	
 	
-	public Post addPost(Post post) {
+	public Post addPost(Post post,String userNick) {
 		
-		
-//		Post newPost = new Post(user, post.imageUrl,post.tags)
+		userService.findUserExists(userNick);
+		User user = userService.getUserByNick(userNick);
+//		Post newPost = new Post(user, post.getImageUrl(),post.getTags());
 		
 		return null;
 	}
@@ -31,6 +34,7 @@ public class PostService {
 		
 		return null;
 	}
+	
 	public void addLike(){
 		
 	}

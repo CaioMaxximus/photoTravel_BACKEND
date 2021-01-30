@@ -40,13 +40,19 @@ public class UserService {
 	
 	
 
-	public UserDTO getUserByNick(String nick) {
+	public UserDTO getUserByNickDTO(String nick) {
 		findUserExists(nick);
 		User user = userDao.findById(nick).get();
 		return new UserDTO(user);
 
 	}
 
+	User getUserByNick(String nick) {
+		findUserExists(nick);
+		User user = userDao.findById(nick).get();
+		return user;
+
+	}
 	public List<User> getAllUsers() {
 
 		return userDao.findAll();
