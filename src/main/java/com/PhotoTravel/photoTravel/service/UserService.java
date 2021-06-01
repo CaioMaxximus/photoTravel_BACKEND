@@ -14,13 +14,16 @@ import com.PhotoTravel.photoTravel.model.UserDTO;;
 @Service
 public class UserService {
 
+	@Autowired
 	private final UserDAO userDao;
 
-	@Autowired
+	
 	public UserService(UserDAO userDao) {
 		this.userDao = userDao;
 	}
+	
 
+	
 	public UserDTO addUser(User newUser) {
 
 		findUserAlreadyExists(newUser.getNickname());
@@ -29,7 +32,7 @@ public class UserService {
 		return new UserDTO(user);
 	}
 
-	/// Produca
+	/// Producao
 	public User addUser_(User newUser) {
 
 		findUserAlreadyExists(newUser.getNickname());
@@ -47,7 +50,7 @@ public class UserService {
 
 	}
 
-	User getUserByNick(String nick) {
+	public User getUserByNick(String nick) {
 		findUserExists(nick);
 		User user = userDao.findById(nick).get();
 		return user;
@@ -66,9 +69,9 @@ public class UserService {
 	}
 
 	public void findUserExists(String nick) {
+		System.out.println("nick in user: " + nick);
 		if (!userDao.findById(nick).isPresent()) {
 			throw new ResourceNotFoundException("User nick dont exists");
 		}
-
 	}
 }

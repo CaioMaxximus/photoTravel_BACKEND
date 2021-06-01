@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Entity
+@Entity(name = "post_like")
 public class Like {
 	
 	@Id
