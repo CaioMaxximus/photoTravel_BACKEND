@@ -12,12 +12,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "post_like")
 public class Like {
 	
 	@Id
 	@GeneratedValue
 	private long id;
+	@JsonIgnore
 	@ManyToOne
 	private Post post;
 	private String ownerNick;
@@ -40,7 +43,7 @@ public class Like {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode() {	
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
@@ -87,6 +90,7 @@ public class Like {
 		
 		this.ownerNick = ownerNick;
 		this.post = post;
+		this.creationDate = new Date();
 	}
 
 	public String getOwnerNick() {

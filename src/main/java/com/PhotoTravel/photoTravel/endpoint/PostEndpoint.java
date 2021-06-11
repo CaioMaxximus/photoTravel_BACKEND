@@ -29,7 +29,7 @@ public class PostEndpoint {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Post> getPost(@PathVariable int id) {
-		return new ResponseEntity<Post>(new Post(),HttpStatus.OK);
+		return new ResponseEntity<Post>(service.getPost(id) ,HttpStatus.OK);
 	}
 
 	@GetMapping("/search/{}}")

@@ -6,10 +6,12 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.PhotoTravel.photoTravel.DAO.LikeDAO;
 import com.PhotoTravel.photoTravel.DAO.PostDAO;
 import com.PhotoTravel.photoTravel.error.ResourceAlreadyExistsException;
 import com.PhotoTravel.photoTravel.error.ResourceNotFoundException;
 import com.PhotoTravel.photoTravel.error.ResourceMalformedException;
+import com.PhotoTravel.photoTravel.model.Like;
 import com.PhotoTravel.photoTravel.model.Post;
 import com.PhotoTravel.photoTravel.model.User;
 
@@ -18,12 +20,14 @@ public  class PostService {
 
 	private PostDAO postDAO;
 	private UserService userService;
+	private LikeDAO likeDAO;
 	
 	
 	@Autowired
-	public PostService(PostDAO postDAO,UserService userService) {
+	public PostService(PostDAO postDAO,UserService userService, LikeDAO likeDAO) {
 		this.postDAO = postDAO;
 		this.userService = userService;
+		this.likeDAO = likeDAO;
 	}
 	
 	
@@ -37,19 +41,21 @@ public  class PostService {
 		if(post.getImageUrl() ==  null || post.getTags() == null) {
 			throw new ResourceMalformedException("Dados_de_post_inválidos");
 		}
-		Post newPost = new Post(user, post.getImageUrl(),Arrays.asList(post.getTags().split(";", 1)));
-		
-		return newPost;
+		Post newPost = new Post(user, post.getImageUrl(),Arrays.asList(post.getTags().split(";", 1)));		
+		return postDAO.save(newPost);
 	}
 	
 	
 	public Post getPost(long id){
 		
-		return null;
+		findPostExists(id);
+		return postDAO.findById(id).get();
 	}
 	
-	public void addLike(){
-		
+	public Like addLike(long postId, String userNick){
+		Post post = getPost(postId);
+		Like newLike = new Like(userNick , post);
+		return likeDAO.save(newLike);
 	}
 	
 	private void findPostExists(long id){
@@ -57,6 +63,7 @@ public  class PostService {
 			throw new ResourceNotFoundException("Post id dont exists");
 		}
 	}
+
 	
 //	
 //	public void findUserAlreadyExists(String nick) {

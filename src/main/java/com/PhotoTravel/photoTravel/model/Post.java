@@ -38,6 +38,7 @@ public class Post {
 		this.imageUrl = imageUrl;
 		this.tags = "";
 		this.likes = new ArrayList<Like>();
+		creationDate = new Date();
 
 	}
 	
