@@ -18,11 +18,11 @@ public class User {
 	@Column
 	private String password;
 
-	public User(String nickname, String email, String password) {
+	public User(String nickname, String email, String password ,String description) {
 		this.nickname = nickname;
 		this.email = email;
 		this.password = password;
-		this.description = " ";
+		this.description = description;
 	}
 
 	public User() {

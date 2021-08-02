@@ -26,8 +26,8 @@ public class UserService {
 	
 	public UserDTO addUser(User newUser) {
 
-		findUserAlreadyExists(newUser.getNickname());
-		User user = new User(newUser.getNickname(), newUser.getEmail(), newUser.getPassword());
+		findUserAlreadyExists(newUser.getNickname(), newUser.getEmail());
+		User user = new User(newUser.getNickname(), newUser.getEmail(), newUser.getPassword() , newUser.getDescription());
 		userDao.save(user);
 		return new UserDTO(user);
 	}
@@ -35,8 +35,8 @@ public class UserService {
 	/// Producao
 	public User addUser_(User newUser) {
 
-		findUserAlreadyExists(newUser.getNickname());
-		User user = new User(newUser.getNickname(), newUser.getEmail(), newUser.getPassword());
+		findUserAlreadyExists(newUser.getNickname(), newUser.getEmail());
+		User user = new User(newUser.getNickname(), newUser.getEmail(), newUser.getPassword(), null);
 		return user;
 
 	}
@@ -61,9 +61,9 @@ public class UserService {
 		return userDao.findAll();
 	}
 
-	public void findUserAlreadyExists(String nick) {
-		if (userDao.findById(nick).isPresent()) {
-			throw new ResourceAlreadyExistsException("User nick already exists");
+	public void findUserAlreadyExists(String nick, String email) {
+		if (userDao.findById(nick).isPresent() || userDao.findByEmail(email) != null) {
+			throw new ResourceAlreadyExistsException("User already exists");
 		}
 
 	}

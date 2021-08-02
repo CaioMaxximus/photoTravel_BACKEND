@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -26,26 +27,26 @@ public class Post {
 	@ManyToOne
 	private User ownerUser;
 	private String imageUrl;
-//	private List<String> tags;
-	private String tags;
+	@ManyToMany
+	private List<Tag> tags;
 	private Date creationDate; /// Substituir pelo gregorian calendar
 	@OneToMany(mappedBy = "post")
 	private List<Like> likes;
 
-	public Post(User ownerUser, String imageUrl, List<String> tags) {
+	public Post(User ownerUser, String imageUrl, List<Tag> tags) {
 
 		this.ownerUser = ownerUser;
 		this.imageUrl = imageUrl;
-		this.tags = "";
+		this.tags = tags;
 		this.likes = new ArrayList<Like>();
 		creationDate = new Date();
 
 	}
 	
-	public Post(String imageUrl, List<String> tags) {
+	public Post(String imageUrl, List<Tag> tags) {
 
 		this.imageUrl = imageUrl;
-		this.tags = "";
+		this.tags = tags;
 		this.likes = new ArrayList<Like>();
 
 	}
@@ -95,11 +96,12 @@ public class Post {
 		this.id = id;
 	}
 
-	public String getTags() {
+
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(String tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 

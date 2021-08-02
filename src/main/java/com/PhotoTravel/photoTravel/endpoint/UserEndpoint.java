@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.PhotoTravel.photoTravel.model.Post;
 import com.PhotoTravel.photoTravel.model.User;
 import com.PhotoTravel.photoTravel.model.UserDTO;
 import com.PhotoTravel.photoTravel.service.UserService;
@@ -49,6 +50,7 @@ public class UserEndpoint {
 	
 	@PostMapping("")
 	public ResponseEntity<UserDTO> addUser(@RequestBody User user){
+		
 		return new ResponseEntity<UserDTO>(service.addUser(user),HttpStatus.OK);
 		
 	}

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PhotoTravel.photoTravel.model.Post;
+import com.PhotoTravel.photoTravel.model.PostDTO;
 import com.PhotoTravel.photoTravel.service.PostService;;
 
 
@@ -43,7 +44,7 @@ public class PostEndpoint {
 	}
 	
 	@PostMapping("/{nick}")
-	public ResponseEntity<Post> addPost(@PathVariable String nick, @RequestBody Post post) {
+	public ResponseEntity<Post> addPost(@PathVariable String nick, @RequestBody PostDTO post ) {
 		return new ResponseEntity<Post> (service.addPost(post, nick),HttpStatus.OK);
 	}
 	
