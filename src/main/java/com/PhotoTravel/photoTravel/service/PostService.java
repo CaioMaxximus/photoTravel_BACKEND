@@ -3,6 +3,7 @@ package com.PhotoTravel.photoTravel.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,11 @@ public  class PostService {
 	private TagDAO tagDAO;
 	
 	@Autowired
-	public PostService(PostDAO postDAO,UserService userService, LikeDAO likeDAO) {
+	public PostService(PostDAO postDAO,UserService userService, LikeDAO likeDAO , TagDAO tagDAO) {
 		this.postDAO = postDAO;
 		this.userService = userService;
 		this.likeDAO = likeDAO;
+		this.tagDAO = tagDAO;
 	}
 	
 	
@@ -42,8 +44,10 @@ public  class PostService {
 		if(post.getImageUrl() ==  null || post.getTags() == null) {
 			throw new ResourceMalformedException("Dados_de_post_inválidos");
 		}
+		System.out.println(post.toString());
 		
-		Post newPost = new Post(user, post.getImageUrl(),getTagsDB(post.getTags()));		
+		Post newPost = new Post(user, post.getImageUrl(),getTagsDB(post.getTags()));
+		
 		return postDAO.save(newPost);
 	}
 	
@@ -51,10 +55,19 @@ public  class PostService {
 		List<Tag> exit  = new ArrayList<Tag>();
 
 		for (String tag : tags) {
-			 Tag t= tagDAO.findById(tag).get();
-			 if (t != null) {
-				 exit.add(t);
+			System.out.println(tag);
+			 Optional<Tag> t= tagDAO.findById(tag);
+			 if (t.isPresent()) {
+				 System.out.println(tag);
+				 exit.add(t.get());
+			 }else{
+				 Tag newT = new Tag(tag);
+				 tagDAO.save(newT);
+				 newT.toString();
+				 exit.add(newT);
 			 }
+			 
+			 
 			 
 		}
 		
@@ -68,11 +81,25 @@ public  class PostService {
 	}
 	
 	public Like addLike(long postId, String userNick){
+		
+		
+		this.findPostExists(postId);
+		userService.findUserExists(userNick);
 		Post post = getPost(postId);
-		Like newLike = new Like(userNick , post);
-		return likeDAO.save(newLike);
+		Optional<Like> l = likeDAO.findByPostAndOwnerNick(post, userNick);
+		if(l.isPresent()) {
+			likeDAO.delete(l.get());
+			return l.get();
+		}else {
+			Like newLike = new Like(userNick , post);
+			return likeDAO.save(newLike);
+
+		}
+		
 	}
 	
+	
+	//Alterar para retornar o objeto para evitar consultas duplicadas no banco
 	private void findPostExists(long id){
 		if (!postDAO.findById(id).isPresent()) {
 			throw new ResourceNotFoundException("Post id dont exists");

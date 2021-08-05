@@ -16,19 +16,28 @@ public class PostDTO {
 	private String userNick;
 	
 	
-	public PostDTO( List<String> tags , String imageUrl , String creationDate) {
+	public PostDTO( List<String> tags , String imageUrl ) {
 	
 		this.tags = tags;
-		this.creationDate = creationDate;
 		this.imageUrl = imageUrl;
 	}
 	
+	@Override
+	public String toString() {
+		return "PostDTO [tags=" + tags + ", imageUrl=" + imageUrl + ", creationDate=" + creationDate + ", userNick="
+				+ userNick + "]";
+	}
+
 	public PostDTO( List<String> tags,  String imageUrl , String creationDate, String userNick ) {
 		
 		this.tags = tags;
 		this.creationDate = creationDate;
 		this.imageUrl = imageUrl;
 		this.userNick = userNick;
+	}
+	
+	public PostDTO() {
+		
 	}
 	
 	
