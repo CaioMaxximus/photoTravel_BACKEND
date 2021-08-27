@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.PhotoTravel.photoTravel.service.PostService;;
 @RestController
 @RequestMapping("posts")
 @ResponseBody
+@CrossOrigin
 public class PostEndpoint {
 	
 	@Autowired
@@ -33,9 +35,9 @@ public class PostEndpoint {
 		return new ResponseEntity<Post>(service.getPost(id) ,HttpStatus.OK);
 	}
 
-	@GetMapping("/search/{}}")
+	@GetMapping("/all")
 	public List<Post> getPosts(){
-		return new ArrayList<Post>();
+		return service.getPosts();
 	}
 	
 	@DeleteMapping("")

@@ -41,9 +41,15 @@ public class UserService {
 
 	}
 	
-	
 
-	public UserDTO getUserByNickDTO(String nick) {
+	public UserDTO getUserByNickDTOShort(String nick) {
+		findUserExists(nick);
+		User user = userDao.findById(nick).get();
+		return new UserDTO(user);
+
+	}
+
+	public UserDTO getUserByNickDTOLong(String nick) {
 		findUserExists(nick);
 		User user = userDao.findById(nick).get();
 		return new UserDTO(user);

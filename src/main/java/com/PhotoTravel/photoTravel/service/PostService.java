@@ -80,6 +80,10 @@ public  class PostService {
 		return postDAO.findById(id).get();
 	}
 	
+	public List<Post> getPosts(){
+		return postDAO.findAll();
+	}
+	
 	public Like addLike(long postId, String userNick){
 		
 		

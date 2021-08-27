@@ -40,13 +40,15 @@ public class UserEndpoint {
 		return new ResponseEntity(service.getAllUsers(),HttpStatus.OK);
 	}
 	
-	@GetMapping("/search/{nick}")
+	@GetMapping("/search/{nick}/short")
 	public ResponseEntity<User> searchUsers(@PathVariable String nick) {
 		return new ResponseEntity(service.getUserByNickDTO(nick),HttpStatus.OK);
 	}
-	
-	
-	
+
+	@GetMapping("/search/{nick}/long")
+	public ResponseEntity<User> searchUsers(@PathVariable String nick) {
+		return new ResponseEntity(service.getUserByNickDTO(nick),HttpStatus.OK);
+	}
 	
 	@PostMapping("")
 	public ResponseEntity<UserDTO> addUser(@RequestBody User user){
