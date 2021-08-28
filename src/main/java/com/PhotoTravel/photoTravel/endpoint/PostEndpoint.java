@@ -39,6 +39,12 @@ public class PostEndpoint {
 	public List<Post> getPosts(){
 		return service.getPosts();
 	}
+
+	@GetMapping("/{userNick}/{order}")
+	public ResponseEntity<List<Post>> getPostsFromUser(@PathVariable String userNick , @PathVariable String order){
+
+		return new ResponseEntity<List<Post>> (service.getPostsByNick(userNick) ,HttpStatus.OK) ;
+	}
 	
 	@DeleteMapping("")
 	public Post removePost(){

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.PhotoTravel.photoTravel.DAO.LikeDAO;
 import com.PhotoTravel.photoTravel.DAO.PostDAO;
 import com.PhotoTravel.photoTravel.DAO.TagDAO;
+import com.PhotoTravel.photoTravel.DAO.UserDAO;
 import com.PhotoTravel.photoTravel.error.ResourceAlreadyExistsException;
 import com.PhotoTravel.photoTravel.error.ResourceNotFoundException;
 import com.PhotoTravel.photoTravel.error.ResourceMalformedException;
@@ -27,13 +28,15 @@ public  class PostService {
 	private UserService userService;
 	private LikeDAO likeDAO;
 	private TagDAO tagDAO;
+	private UserDAO userDAO;
 	
 	@Autowired
-	public PostService(PostDAO postDAO,UserService userService, LikeDAO likeDAO , TagDAO tagDAO) {
+	public PostService(PostDAO postDAO,UserService userService, LikeDAO likeDAO , TagDAO tagDAO , UserDAO userDAO) {
 		this.postDAO = postDAO;
 		this.userService = userService;
 		this.likeDAO = likeDAO;
 		this.tagDAO = tagDAO;
+		this.userDAO = userDAO;
 	}
 	
 	
@@ -78,6 +81,14 @@ public  class PostService {
 		
 		findPostExists(id);
 		return postDAO.findById(id).get();
+	}
+
+	public List<Post> getPostsByNick(String userNick){
+
+		userService.findUserExists(userNick);
+		User user = userDAO.findById(userNick).get();
+		List<Post> posts =  postDAO.findByOwnerUser(user);
+		return posts;
 	}
 	
 	public List<Post> getPosts(){

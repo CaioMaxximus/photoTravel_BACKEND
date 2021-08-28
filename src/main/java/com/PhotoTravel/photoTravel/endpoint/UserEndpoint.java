@@ -41,13 +41,13 @@ public class UserEndpoint {
 	}
 	
 	@GetMapping("/search/{nick}/short")
-	public ResponseEntity<User> searchUsers(@PathVariable String nick) {
-		return new ResponseEntity(service.getUserByNickDTO(nick),HttpStatus.OK);
+	public ResponseEntity<User> searchUsersShort(@PathVariable String nick) {
+		return new ResponseEntity(service.getUserByNickDTOShort(nick),HttpStatus.OK);
 	}
 
 	@GetMapping("/search/{nick}/long")
-	public ResponseEntity<User> searchUsers(@PathVariable String nick) {
-		return new ResponseEntity(service.getUserByNickDTO(nick),HttpStatus.OK);
+	public ResponseEntity<User> searchUsersLong(@PathVariable String nick) {
+		return new ResponseEntity(service.getUserByNickDTOLong(nick),HttpStatus.OK);
 	}
 	
 	@PostMapping("")
