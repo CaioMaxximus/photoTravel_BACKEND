@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.PhotoTravel.photoTravel.DAO.UserDAO;
 import com.PhotoTravel.photoTravel.error.ResourceAlreadyExistsException;
+import com.PhotoTravel.photoTravel.error.ResourceMalformedException;
 import com.PhotoTravel.photoTravel.error.ResourceNotFoundException;
 import com.PhotoTravel.photoTravel.model.User;
 import com.PhotoTravel.photoTravel.model.UserDTO;;
@@ -22,16 +23,36 @@ public class UserService {
 		this.userDao = userDao;
 	}
 	
+	
+	
 
 	
 	public UserDTO addUser(User newUser) {
 
 		findUserAlreadyExists(newUser.getNickname(), newUser.getEmail());
+		verifyUserData(newUser);
 		User user = new User(newUser.getNickname(), newUser.getEmail(), newUser.getPassword() , newUser.getDescription());
 		userDao.save(user);
 		return new UserDTO(user);
 	}
 
+	
+	private void verifyUserData(User newUser) {
+		
+		String passwordPattern = "(?=.*[}{^?=+-@])(?=.*[a-zA-Z])(?=.*[0-9]).{6,15}";
+		String nickNamePattern = "^[a-zA-Z0-9]{5,15}$";
+		String emailPattern = "^\\S+@\\S+\\.\\S+$";
+		
+		if(newUser.getPassword() == null && !newUser.getPassword().matches(passwordPattern) &&
+				newUser.getNickname() == null && !newUser.getNickname().matches(nickNamePattern) 
+				&& newUser.getEmail() == null && !newUser.getEmail().matches(emailPattern) &&
+				newUser.getDescription() == null && newUser.getDescription().length() > 10 &&
+				newUser.getDescription().length() < 100){
+			throw new ResourceMalformedException("Dados em formato incorreto."); 
+
+		}
+	}
+	
 	/// Producao
 	public User addUser_(User newUser) {
 
