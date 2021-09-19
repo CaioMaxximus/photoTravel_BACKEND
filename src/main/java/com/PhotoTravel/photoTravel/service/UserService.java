@@ -15,17 +15,15 @@ import com.PhotoTravel.photoTravel.model.UserDTO;;
 @Service
 public class UserService {
 
-	@Autowired
 	private final UserDAO userDao;
+	private final EmailService emailSevice;
 
-	
-	public UserService(UserDAO userDao) {
+	@Autowired
+	public UserService(UserDAO userDao ,EmailService emailSevice ) {
 		this.userDao = userDao;
+		this.emailSevice = emailSevice;
 	}
 	
-	
-	
-
 	
 	public UserDTO addUser(User newUser) {
 
@@ -43,14 +41,18 @@ public class UserService {
 		String nickNamePattern = "^[a-zA-Z0-9]{5,15}$";
 		String emailPattern = "^\\S+@\\S+\\.\\S+$";
 		
-		if(newUser.getPassword() == null && !newUser.getPassword().matches(passwordPattern) &&
-				newUser.getNickname() == null && !newUser.getNickname().matches(nickNamePattern) 
-				&& newUser.getEmail() == null && !newUser.getEmail().matches(emailPattern) &&
-				newUser.getDescription() == null && newUser.getDescription().length() > 10 &&
-				newUser.getDescription().length() < 100){
-			throw new ResourceMalformedException("Dados em formato incorreto."); 
+		if(newUser.getPassword() == null || !newUser.getPassword().matches(passwordPattern) ||
+				newUser.getNickname() == null || !newUser.getNickname().matches(nickNamePattern) 
+				&& newUser.getEmail() == null ||
+				newUser.getDescription() == null || newUser.getDescription().length() < 10 ||
+				newUser.getDescription().length() > 100){
+			
+			throw new ResourceMalformedException("Malformed Data"); 
 
 		}
+		emailSevice.sendTextEmail("Seu codigo é tal:", "ativacao conta", newUser.getEmail());
+		
+		
 	}
 	
 	/// Producao
@@ -83,6 +85,14 @@ public class UserService {
 		return user;
 
 	}
+	
+	public User getUserByEmail(String email) {
+		findUserExistsEmail(email);
+		return userDao.findByEmail(email);
+	}
+
+
+
 	public List<User> getAllUsers() {
 
 		return userDao.findAll();
@@ -99,6 +109,13 @@ public class UserService {
 		System.out.println("nick in user: " + nick);
 		if (!userDao.findById(nick).isPresent()) {
 			throw new ResourceNotFoundException("User nick dont exists");
+		}
+	}
+	
+	private void findUserExistsEmail(String email) {
+		System.out.println("nick in user: " + email);
+		if (userDao.findByEmail(email) != null) {
+			throw new ResourceNotFoundException("User email dont exists");
 		}
 	}
 }
