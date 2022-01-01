@@ -30,6 +30,7 @@ public class AuthenticationEndpoint {
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthentication(@RequestBody JwtRequest req) throws Exception{
 		authenticate(req.getNickname(), req.getPassword());
+		System.out.println("Entrou pra login");
 		
 		return new ResponseEntity<String>(jwtUtil.generateToken(req),HttpStatus.OK);
 	}

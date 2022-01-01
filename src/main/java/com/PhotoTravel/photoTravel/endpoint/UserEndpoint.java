@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,6 +42,13 @@ public class UserEndpoint {
 	@GetMapping("/all")
 	public ResponseEntity<List<UserDTO>> getAllUsers(){
 		return new ResponseEntity(service.getAllUsers(),HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping("/personal")
+	public ResponseEntity<User> getPersonaUserAcconut(@RequestHeader("Authorization") String token){
+		return new ResponseEntity<User>(service.getPersonalUser(token), HttpStatus.OK); 
 	}
 	
 	@GetMapping("/search/{nick}/short")

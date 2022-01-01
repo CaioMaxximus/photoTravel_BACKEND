@@ -13,6 +13,7 @@ public class EmailService {
 	
 	public void sendTextEmail(String content, String subject  ,String emailDestiny) {
 	
+		
 			SimpleMailMessage mailMessage = new SimpleMailMessage();
 			mailMessage.setSubject(subject);
 			mailMessage.setText(content);

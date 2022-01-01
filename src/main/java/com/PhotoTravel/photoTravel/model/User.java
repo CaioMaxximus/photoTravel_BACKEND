@@ -6,6 +6,9 @@ import javax.persistence.Id;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity(name = "user_entity")
 public class User {
 
@@ -15,7 +18,9 @@ public class User {
 	private String email;
 	@Column
 	private String description;
+	
 	@Column
+	@JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 
 	public User(String nickname, String email, String password ,String description) {
@@ -59,6 +64,10 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String toString() {
+		return this.nickname + " " +  this.email + " " + this.description + " " + this.password;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.PhotoTravel.photoTravel.configurations;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -39,13 +40,16 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 		String tokenR = request.getHeader("Authorization");
 		
 		System.out.println("Executou o filtro");
+		System.out.println(tokenR);
 
 		// JWT Token está no form "Bearer token". Remova a palavra Bearer e pegue
 		// somente o Token
 		if (tokenR != null && tokenR.startsWith("Bearer ")) {
-			token = tokenR.substring(7);
+			token = tokenR.split(" ")[1].trim();
+			System.out.println(token);
 			try {
-				nickname = jwtUtil.getUsernameFromToken(tokenR);
+				nickname = jwtUtil.getUsernameFromToken(token);
+				System.out.println(nickname);
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {
@@ -58,9 +62,10 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 		if (nickname != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			User user = this.userService.getUserByNick(nickname);
 
-			if (jwtUtil.validateToken(tokenR, user)) {
+			if (jwtUtil.validateToken(token, user)) {
+				System.out.println("validou");
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-						user, null);
+						user,null , new ArrayList<>());
 				usernamePasswordAuthenticationToken
 						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

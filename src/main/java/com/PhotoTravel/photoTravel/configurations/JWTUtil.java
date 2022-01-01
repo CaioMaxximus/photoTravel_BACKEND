@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+
+
 
 import com.PhotoTravel.photoTravel.model.JwtRequest;
 import com.PhotoTravel.photoTravel.model.User;
@@ -15,6 +19,8 @@ import com.PhotoTravel.photoTravel.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import com.nimbusds.jwt.JWTParser;
+
 
 @Component
 public class JWTUtil implements Serializable {
@@ -26,6 +32,7 @@ public class JWTUtil implements Serializable {
 	private String secret;
 
 	public String getUsernameFromToken(String token) {
+		System.out.println(token);
 		return getClaimFromToken(token, Claims::getSubject);
 	}
 
@@ -34,6 +41,7 @@ public class JWTUtil implements Serializable {
 	}
 
 	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+		
 		final Claims claims = getAllClaimsFromToken(token);
 		return claimsResolver.apply(claims);
 
@@ -42,6 +50,12 @@ public class JWTUtil implements Serializable {
 ////Utiliza a secret key
 	private Claims getAllClaimsFromToken(String token) {
 		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+	}
+	
+	private String encode(String raw) {
+	    return Base64.getUrlEncoder()
+	            .withoutPadding()
+	            .encodeToString(raw.getBytes(StandardCharsets.UTF_8));
 	}
 
 //check if the token has expired
