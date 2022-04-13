@@ -25,7 +25,7 @@ import com.PhotoTravel.photoTravel.service.UserService;
 @RestController
 @ResponseBody
 @RequestMapping("users")
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserEndpoint {
 
 	

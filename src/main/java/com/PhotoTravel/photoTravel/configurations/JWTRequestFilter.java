@@ -56,14 +56,14 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 				System.out.println("JWT Token has expired");
 			}
 		} else {
-			logger.warn("JWT Token does not begin with Bearer String");
+			logger.error("JWT Token does not begin with Bearer String");
 		}
 
 		if (nickname != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			User user = this.userService.getUserByNick(nickname);
 
 			if (jwtUtil.validateToken(token, user)) {
-				System.out.println("validou");
+				logger.warn("validou o token " + token);
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						user,null , new ArrayList<>());
 				usernamePasswordAuthenticationToken

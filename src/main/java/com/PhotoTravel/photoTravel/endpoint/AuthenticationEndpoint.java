@@ -42,7 +42,8 @@ public class AuthenticationEndpoint {
 			throw new ResourceMalformedException("Invalid Data");
 		}else{
 			User user = userService.getUserByNick(nickname);
-			System.out.println(password); 
+			System.out.println(user.getNickname()); 
+			System.out.println(user.getPassword()); 
 			if(!user.getPassword().equals(password) ) {
 				throw new AuthenticationFailedException("Invalid Password");
 			}

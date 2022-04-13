@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.PhotoTravel.photoTravel.configurations.JWTUtil;
 import com.PhotoTravel.photoTravel.model.Post;
 import com.PhotoTravel.photoTravel.model.PostDTO;
 import com.PhotoTravel.photoTravel.service.PostService;;
@@ -30,6 +31,8 @@ public class PostEndpoint {
 	
 	@Autowired
 	PostService service;
+	@Autowired
+	JWTUtil jwtUtil;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Post> getPost(@PathVariable int id) {
@@ -53,7 +56,8 @@ public class PostEndpoint {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<Post> addPost(@PathVariable String nick, @RequestBody PostDTO post , @RequestHeader String token) {
+	public ResponseEntity<Post> addPost( @RequestBody PostDTO post , @RequestHeader("Authorization") String header) {
+		String nick = jwtUtil.getUsernameFromToken(header.split(" ")[1].trim());
 		return new ResponseEntity<Post> (service.addPost(post, nick),HttpStatus.OK);
 	}
 	

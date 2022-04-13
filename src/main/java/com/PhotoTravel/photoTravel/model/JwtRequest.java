@@ -4,9 +4,17 @@ import java.io.Serializable;
 
 public class JwtRequest implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6567575785983313866L;
 	private String nickname;
 	private String password;
 
+	public JwtRequest() {
+			
+	}
+	
 	public JwtRequest(String nickname , String password) {
 		this.nickname = nickname;
 		this.password = password;
