@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -23,7 +24,6 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@JsonIgnore
 	@ManyToOne
 	private User ownerUser;
 	private String imageUrl;
@@ -57,7 +57,23 @@ public class Post {
 		
 	}
 
+	
+	@JsonGetter("ownerUser")
+	public String getOwnUser() {
+		return this.ownerUser.getNickname();
+	}
 
+	@JsonGetter("tags")
+	public List<String> getStringTags(){
+		List<String> saida = new ArrayList();
+		for (Tag tag : this.tags) {
+			
+			saida.add(tag.getId());
+		}
+		return saida;
+			
+			
+	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -115,6 +131,13 @@ public class Post {
 
 	public void setLikes(List<Like> likes) {
 		this.likes = likes;
+	}
+	
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.getOwnUser() + " - " + this.getId();
 	}
 
 }

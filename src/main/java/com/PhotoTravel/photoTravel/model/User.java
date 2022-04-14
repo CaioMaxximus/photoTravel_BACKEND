@@ -50,7 +50,7 @@ public class User {
 		this.description = description;
 	}
 
-	public String getNickname() {
+	public String getNickname() { 
 		return nickname;
 	}
 

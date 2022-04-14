@@ -80,6 +80,7 @@ public  class PostService {
 	public Post getPost(long id){
 		
 		findPostExists(id);
+		System.out.println(postDAO.findById(id).get());
 		return postDAO.findById(id).get();
 	}
 
