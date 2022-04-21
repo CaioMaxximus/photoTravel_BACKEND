@@ -30,6 +30,12 @@ public class JWTUtil implements Serializable {
 
 	@Value("${jwt.secret}")
 	private String secret;
+	
+	public String getUserNameFromHeader(String authorizationHeader) {
+		
+		String token = authorizationHeader.split(" ")[1];
+		return getUsernameFromToken(token);
+	}
 
 	public String getUsernameFromToken(String token) {
 		System.out.println(token);

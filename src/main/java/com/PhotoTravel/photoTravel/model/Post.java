@@ -1,6 +1,7 @@
 package com.PhotoTravel.photoTravel.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class Post {
 	private Date creationDate; /// Substituir pelo gregorian calendar
 	@OneToMany(mappedBy = "post")
 	private List<Like> likes;
+	private long numLikes;
 
 	public Post(User ownerUser, String imageUrl, List<Tag> tags) {
 
@@ -71,9 +73,18 @@ public class Post {
 			saida.add(tag.getId());
 		}
 		return saida;
-			
-			
+				
 	}
+	
+	public long getNumLikes() {
+		return numLikes;
+	}
+
+	public void setNumLikes(long numLikes) {
+		this.numLikes = numLikes;
+	}
+	
+	
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -126,13 +137,20 @@ public class Post {
 	}
 
 	public List<Like> getLikes() {
-		return likes;
+		return Collections.unmodifiableList(this.likes);
 	}
 
 	public void setLikes(List<Like> likes) {
 		this.likes = likes;
 	}
 	
+	public void addLike(Like like) {
+		this.likes.add(like);
+	}
+	
+	public void removeLike(Like like) {
+		this.likes.remove(like);	
+	}
 	
 	@Override
 	public String toString() {

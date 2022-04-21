@@ -29,9 +29,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 	this.httpSecurity = httpSecurity;
+	
+	httpSecurity.cors();
 	httpSecurity.csrf().disable()
 	// Não cheque essas requisições
-	.authorizeRequests().antMatchers("/login","/posts/{userNick}/{order}", "/users/search/{nick}/short", "/users/search/{nick}/long", "/users" ,"/posts/**", "/users/all").permitAll().
+	.authorizeRequests().antMatchers("/login","/posts/{userNick}/{order}", "/users/search/{nick}/short", "/users/search/{nick}/long", "/users" ,"/posts/all", "/users/all" ,"/posts/{id}").permitAll().
 	// Qualquer outra requisição deve ser checada
 	anyRequest().authenticated().and().
 	exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
@@ -40,5 +42,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	}
 	 //Adicionar esse Bean no na sua classe WebSecurityConfigurerAdapter e configurar o que você quer liberar
    
+	
 	
 }

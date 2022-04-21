@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PhotoTravel.photoTravel.configurations.JWTUtil;
+import com.PhotoTravel.photoTravel.model.Like;
 import com.PhotoTravel.photoTravel.model.Post;
 import com.PhotoTravel.photoTravel.model.PostDTO;
 import com.PhotoTravel.photoTravel.service.PostService;;
@@ -57,8 +58,14 @@ public class PostEndpoint {
 	
 	@PostMapping("")
 	public ResponseEntity<Post> addPost( @RequestBody PostDTO post , @RequestHeader("Authorization") String header) {
-		String nick = jwtUtil.getUsernameFromToken(header.split(" ")[1].trim());
-		return new ResponseEntity<Post> (service.addPost(post, nick),HttpStatus.OK);
+		String nickname = jwtUtil.getUserNameFromHeader(header);
+		return new ResponseEntity<Post> (service.addPost(post, nickname),HttpStatus.OK);
+	}
+	
+	@PostMapping("like/{postId}")
+	public ResponseEntity<Like> addLike(@PathVariable long postId,@RequestHeader String authorization) {
+		String nickname = jwtUtil.getUserNameFromHeader(authorization);
+		return new ResponseEntity<Like>(service.addLike(postId, nickname),HttpStatus.OK);
 	}
 	
 	@PutMapping("/report")

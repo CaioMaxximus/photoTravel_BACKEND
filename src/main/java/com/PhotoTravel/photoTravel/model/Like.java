@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ForeignKey;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +24,15 @@ public class Like {
 	@JsonIgnore
 	@ManyToOne
 	private Post post;
+	@NonNull
 	private String ownerNick;
 	private  Date creationDate;
 
+	public Like() {
+		
+		this.creationDate = new Date();
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -82,10 +89,7 @@ public class Like {
 		return true;
 	}
 
-	public Like() {
-		
-	}
-	
+
 	public Like(String ownerNick,Post post) {
 		
 		this.ownerNick = ownerNick;
