@@ -38,11 +38,11 @@ public class LikeEndpoint {
 	public void getLike() {
 		
 	}
-	@PostMapping("/{postId}")
-	public ResponseEntity<Like> addLike(@PathVariable long postId,@RequestHeader String authorization) {
-		String nickname = jwtUtil.getUserNameFromHeader(authorization);
-		return new ResponseEntity<Like>(postService.addLike(postId, nickname),HttpStatus.OK);
-	}
+//	@PostMapping("/{postId}")
+//	public ResponseEntity<Like> addLike(@PathVariable long postId,@RequestHeader String authorization) {
+//		String nickname = jwtUtil.getUserNameFromHeader(authorization);
+//		return new ResponseEntity<Like>(postService.addLike(postId, nickname),HttpStatus.OK);
+//	}
 	
 	@DeleteMapping("")
 	public void removeLike() {

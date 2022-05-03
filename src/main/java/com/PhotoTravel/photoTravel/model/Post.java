@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Post {
@@ -31,7 +29,7 @@ public class Post {
 	@ManyToMany
 	private List<Tag> tags;
 	private Date creationDate; /// Substituir pelo gregorian calendar
-	@OneToMany(mappedBy = "post")
+	@OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
 	private List<Like> likes;
 	private long numLikes;
 
@@ -146,10 +144,15 @@ public class Post {
 	
 	public void addLike(Like like) {
 		this.likes.add(like);
+		this.numLikes += 1;
 	}
 	
 	public void removeLike(Like like) {
-		this.likes.remove(like);	
+		if(this.likes.remove(like)) {
+			this.numLikes -= 1;}
+		//lancar excecao
+		
+			
 	}
 	
 	@Override

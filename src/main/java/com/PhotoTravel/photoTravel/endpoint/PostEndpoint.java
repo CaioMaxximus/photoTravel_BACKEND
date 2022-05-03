@@ -62,10 +62,11 @@ public class PostEndpoint {
 		return new ResponseEntity<Post> (service.addPost(post, nickname),HttpStatus.OK);
 	}
 	
-	@PostMapping("like/{postId}")
-	public ResponseEntity<Like> addLike(@PathVariable long postId,@RequestHeader String authorization) {
+	@PostMapping("/likes/{postId}")
+	public ResponseEntity<Boolean> addLike(@PathVariable long postId,@RequestHeader("Authorization") String authorization) {
+		System.out.println("chamou o endpoint");
 		String nickname = jwtUtil.getUserNameFromHeader(authorization);
-		return new ResponseEntity<Like>(service.addLike(postId, nickname),HttpStatus.OK);
+		return new ResponseEntity<Boolean>(service.addLike(postId, nickname),HttpStatus.OK);
 	}
 	
 	@PutMapping("/report")

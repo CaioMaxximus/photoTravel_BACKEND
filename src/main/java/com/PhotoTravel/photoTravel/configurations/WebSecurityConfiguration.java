@@ -25,10 +25,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	private JWTRequestFilter jwtRequestFilter;
 	@Autowired
 	private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
+	
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 	this.httpSecurity = httpSecurity;
+	
 	
 	httpSecurity.cors();
 	httpSecurity.csrf().disable()

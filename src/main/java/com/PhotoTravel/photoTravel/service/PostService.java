@@ -96,21 +96,27 @@ public  class PostService {
 		return postDAO.findAll();
 	}
 	
-	public Like addLike(long postId, String userNick){
+	public Boolean addLike(long postId, String userNick){
 		this.findPostExists(postId);
+		System.out.println("like nick" + userNick);
 		userService.findUserExists(userNick);
 		Post post = getPost(postId);
-		Optional<Like> like = likeDAO.findByPostAndOwnerNick(post, userNick);
-		if(like.isPresent()) {
-			post.removeLike(like.get());
-			return like.get();
+		System.out.println(post);
+		Like like = likeDAO.findByPostAndOwnerNick(post, userNick);
+		if(like != null
+				) {
+			post.removeLike(like);
+			likeDAO.delete(like);
+			postDAO.save(post);
+			return false;
 		}else {
 			Like newLike = new Like(userNick , post);
 			post.addLike(newLike);
-			return newLike;
+			postDAO.save(post);
+			return true;
 
 		}
-		
+	
 	}
 	
 	
