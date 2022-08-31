@@ -29,6 +29,7 @@ public class Post {
 	@ManyToMany
 	private List<Tag> tags;
 	private Date creationDate; /// Substituir pelo gregorian calendar
+//se tags forem compartuilhadas entre posts, deve -se repensar no método de remoção , se não se removerá as tags de outros posts
 	@OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
 	private List<Like> likes;
 	private long numLikes;
@@ -41,7 +42,8 @@ public class Post {
 		this.likes = new ArrayList<Like>();
 		creationDate = new Date();
 
-	}
+	} 
+ 
 	
 	public Post(String imageUrl, List<Tag> tags) {
 

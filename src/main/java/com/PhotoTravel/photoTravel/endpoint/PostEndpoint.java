@@ -69,6 +69,14 @@ public class PostEndpoint {
 		return new ResponseEntity<Boolean>(service.addLike(postId, nickname),HttpStatus.OK);
 	}
 	
+	//ver se desejo epor quem deu like para os outros usuarios
+	@GetMapping("/likes/{postId}")
+	public ResponseEntity<Like> getLikeByUserNick(@PathVariable long postId,@RequestHeader("Authorization") String authorization){
+
+		String nickname = jwtUtil.getUserNameFromHeader(authorization);
+		return new ResponseEntity<Like>(service.findLikeByNickAndPost(nickname , postId ), HttpStatus.OK);
+	}
+	
 	@PutMapping("/report")
 	public  void reportPost() {
 		

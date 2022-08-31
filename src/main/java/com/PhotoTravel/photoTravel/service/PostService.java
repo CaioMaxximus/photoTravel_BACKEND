@@ -119,6 +119,18 @@ public  class PostService {
 	
 	}
 	
+	public Like findLikeByNickAndPost(String userNick , long postId) {
+		this.findPostExists(postId);
+		System.out.println("like nick" + userNick);
+		userService.findUserExists(userNick);
+		Post post = getPost(postId);
+		Like like = likeDAO.findByPostAndOwnerNick(post, userNick);
+		if(like == null) {
+			throw new ResourceNotFoundException("Like dont exists");
+		}
+		System.out.println();
+		return like;
+	}
 	
 	//Alterar para retornar o objeto para evitar consultas duplicadas no banco
 	private void findPostExists(long id){
@@ -126,6 +138,10 @@ public  class PostService {
 			throw new ResourceNotFoundException("Post id dont exists");
 		}
 	}
+	
+	
+
+
 
 	
 //	
