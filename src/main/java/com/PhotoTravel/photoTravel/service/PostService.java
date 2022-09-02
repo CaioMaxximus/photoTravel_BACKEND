@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.PhotoTravel.photoTravel.DAO.LikeDAO;
 import com.PhotoTravel.photoTravel.DAO.PostDAO;
@@ -137,6 +138,24 @@ public  class PostService {
 		if (!postDAO.findById(id).isPresent()) {
 			throw new ResourceNotFoundException("Post id dont exists");
 		}
+	}
+
+
+	public List<Post> findPostsByTags(String tags) {
+
+		List<String> tagsList = Arrays.asList(tags.split(" "));
+		String regexTags = "^(";
+		
+		for (int i = 0; i < tagsList.size(); i ++) {
+			if(i == tagsList.size() -1) {
+				regexTags += tagsList.get(i);
+			}
+			else{
+				regexTags += tagsList.get(i) + "|";
+			}
+		}regexTags += ")$";
+		System.out.println(regexTags);
+		return postDAO.findPostsByTags(regexTags);
 	}
 	
 	

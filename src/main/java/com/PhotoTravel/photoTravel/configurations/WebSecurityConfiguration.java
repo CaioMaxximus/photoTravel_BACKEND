@@ -34,7 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	httpSecurity.cors();
 	httpSecurity.csrf().disable()
 	// Não cheque essas requisições
-	.authorizeRequests().antMatchers("/login","/posts/{userNick}/{order}", "/users/search/{nick}/short", "/users/search/{nick}/long", "/users" ,"/posts/all", "/users/all" ,"/posts/{id}").permitAll().
+	.authorizeRequests().antMatchers("/login","/posts/{userNick}/{order}", "/users/search/{nick}/short", "/users/search/{nick}/long", "/users" ,"/posts/all", "/users/all" ,"/posts/{id}", "/posts/search/tags/{tags}").permitAll().
 	// Qualquer outra requisição deve ser checada
 	anyRequest().authenticated().and().
 	exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
