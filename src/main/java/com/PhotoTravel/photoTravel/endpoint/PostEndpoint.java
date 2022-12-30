@@ -49,8 +49,14 @@ public class PostEndpoint {
 	public ResponseEntity<List<Post>> getPostsFromUser(@PathVariable String userNick , @PathVariable String order){
 
 		return new ResponseEntity<List<Post>> (service.getPostsByNick(userNick) ,HttpStatus.OK) ;
-	}
+	}  
 	
+	
+	@GetMapping("/sort/{method}/{page}")
+	public ResponseEntity<List<Post>> getPostSorted(@PathVariable String method, @PathVariable int page){
+		return null;
+		
+	}
 	@DeleteMapping("")
 	public Post removePost(){
 		return new Post();
@@ -77,9 +83,9 @@ public class PostEndpoint {
 		return new ResponseEntity<Like>(service.findLikeByNickAndPost(nickname , postId ), HttpStatus.OK);
 	}
 	
-	@GetMapping("/search/tags/{tags}")
-	public ResponseEntity<List<Post>> getPostsByTag(@PathVariable  String tags){
-		return new ResponseEntity<List<Post>>(service.findPostsByTags(tags),HttpStatus.OK);
+	@GetMapping("/search/tags/{tags}/{method}")
+	public ResponseEntity<List<Post>> getPostsByTag(@PathVariable  String tags, @PathVariable String method){
+		return new ResponseEntity<List<Post>>(service.findPostsByTags(tags, method),HttpStatus.OK);
 	}
 	
 	@PutMapping("/report")

@@ -2,6 +2,7 @@ package com.PhotoTravel.photoTravel.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,6 +98,11 @@ public  class PostService {
 		return postDAO.findAll();
 	}
 	
+	public List<Post> getPostsSorted(String method , int page) {
+		
+		return null;
+		
+	}
 	public Boolean addLike(long postId, String userNick){
 		this.findPostExists(postId);
 		System.out.println("like nick" + userNick);
@@ -140,8 +146,8 @@ public  class PostService {
 		}
 	}
 
-
-	public List<Post> findPostsByTags(String tags) {
+///Transformar metódo de ordenacao em um enum
+	public List<Post> findPostsByTags(String tags, String method) {
 
 		List<String> tagsList = Arrays.asList(tags.split(" "));
 		String regexTags = "^(";
@@ -155,7 +161,19 @@ public  class PostService {
 			}
 		}regexTags += ")$";
 		System.out.println(regexTags);
-		return postDAO.findPostsByTags(regexTags);
+		System.out.println(method);
+
+		switch (method) {
+		case "numLikes":
+			return postDAO.findPostsByTagsSortedByLikes (regexTags);
+		case "date":
+			return postDAO.findPostsByTagsSortedByDate (regexTags);
+			
+		default:
+			return new LinkedList<>();
+			
+		}
+		
 	}
 	
 	
